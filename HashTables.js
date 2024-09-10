@@ -34,6 +34,16 @@ class HashTable {
         const found = this.data[hashKey].indexOf(this.data[hashKey].find((k) => k[0] === key));
         return this.data[hashKey][found][1];
     } //O(N)
+
+    keys() {
+        const keysArray = [];
+        this.data.forEach((hashRow) => {
+            if (hashRow && hashRow.length !== 0) {
+                hashRow.forEach((keyVal) => keysArray.push(keyVal[0]));
+            }
+        });
+        return keysArray;
+    }
 }
 
 const myHashTable = new HashTable(10);
@@ -48,6 +58,7 @@ myHashTable.set("abcdhi", 9);
 myHashTable.set("abcdhhh", 8);
 myHashTable.set("apples", 90000);
 myHashTable.set("abcdf", 30000);
+console.log(myHashTable.keys());
 console.log(myHashTable.get("grapes"));
 console.log(myHashTable.get("apples"));
 console.log(myHashTable.get("abcdhhh"));
