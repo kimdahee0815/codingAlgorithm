@@ -52,7 +52,7 @@ class LinkedList {
     }
     insert(index, value) {
         const newNode = new Node(value);
-        let curNode = this.head;
+
         if (index === 0) {
             this.prepend(value);
             return this;
@@ -61,12 +61,23 @@ class LinkedList {
             this.append(value);
             return this;
         }
-        for (let i = 0; i < index - 1; i++) {
-            curNode = curNode.next;
-        }
+        let curNode = this.traverseToIndex(index);
         newNode.next = curNode.next;
         curNode.next = newNode;
         this.length++;
+        return this;
+    }
+    traverseToIndex(index) {
+        let curNode = this.head;
+        for (let i = 0; i < index - 1; i++) {
+            curNode = curNode.next;
+        }
+        return curNode;
+    }
+    remove(index) {
+        let curNode = this.traverseToIndex(index);
+        curNode.next = curNode.next.next;
+        this.length--;
         return this;
     }
     printList() {
@@ -86,5 +97,8 @@ console.dir(myLinkedList.append(5));
 console.dir(myLinkedList.append(16));
 console.dir(myLinkedList.prepend(1));
 console.dir(myLinkedList.insert(2, 99));
+
 // console.dir(myLinkedList.insert(0, 1));
+console.log(myLinkedList.printList());
+console.dir(myLinkedList.remove(1));
 console.log(myLinkedList.printList());
