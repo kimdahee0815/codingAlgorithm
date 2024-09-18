@@ -21,4 +21,12 @@ function reverseStringRecursive(str) {
     );
 }
 
+function reverseStringRecursive2(str) {
+    if (str === "") {
+        return "";
+    } else {
+        return reverseStringRecursive(str.substr(1)) + str.charAt(0);
+    }
+}
+
 console.log(reverseStringRecursive("this is great"));
