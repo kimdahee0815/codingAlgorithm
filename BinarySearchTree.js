@@ -19,7 +19,6 @@ class BinarySearchTree {
         let curNode = this.root;
         let prevNode = this.root;
         while (curNode) {
-            console.log(curNode);
             prevNode = curNode;
             if (curNode.value < value) {
                 curNode = curNode.right;
@@ -27,7 +26,7 @@ class BinarySearchTree {
                 curNode = curNode.left;
             }
         }
-        console.log(prevNode);
+
         if (prevNode.value < value) {
             prevNode.right = newNode;
         } else if (prevNode.value > value) {
@@ -123,7 +122,9 @@ class BinarySearchTree {
 
 const tree = new BinarySearchTree();
 console.log(tree);
+console.log(tree.lookup(9));
 console.log(tree.insert(9));
+console.log(tree.lookup(9));
 console.log(tree.insert(4));
 console.log(tree.insert(6));
 tree.insert(20);
