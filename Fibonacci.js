@@ -16,6 +16,7 @@ function fibonacciIterative(n) {
     return result;
 }
 
+//O(N)
 function fibonacciIterative2(n) {
     let arr = [0, 1];
     for (let i = 2; i < n + 1; i++) {
@@ -24,11 +25,15 @@ function fibonacciIterative2(n) {
     return arr[n];
 }
 
+//O(2^N)
+let numOfCalc = 0;
 function fibonacciRecursive(n) {
+    numOfCalc++;
     if (n <= 1) {
         return n;
     }
     return fibonacciRecursive(n - 1) + fibonacciRecursive(n - 2);
 }
-console.log(fibonacciRecursive(6));
+console.log(fibonacciRecursive(30));
 console.log(fibonacciIterative(7));
+console.log(numOfCalc);
