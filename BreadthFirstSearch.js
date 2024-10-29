@@ -173,6 +173,77 @@ class BinarySearchTree {
         if (!this.lookup(value)) {
             return null;
         } else {
+            let curNode = this.root;
+            let prevNode = null;
+            while (curNode) {
+                if (value < curNode.value) {
+                    prevNode = curNode;
+                    curNode = curNode.left;
+                } else if (value > curNode.value) {
+                    prevNode = curNode;
+                    curNode = curNode.right;
+                } else {
+                    break;
+                }
+            }
+            if (!curNode.right && !curNode.left) {
+                if (prevNode) {
+                    if (prevNode.value < curNode.value) {
+                        prevNode.right = null;
+                    } else {
+                        prevNode.left = null;
+                    }
+                } else {
+                    //root node
+                    this.root = null;
+                }
+            } else if (curNode.right && curNode.left) {
+                let nextSmallestNode = curNode.right;
+                let prevNextSmallestNode = curNode;
+                while (nextSmallestNode.left) {
+                    prevNextSmallestNode = nextSmallestNode;
+                    nextSmallestNode = nextSmallestNode.left;
+                }
+                if (prevNextSmallestNode.value === curNode.value) {
+                    prevNextSmallestNode.right = null;
+                } else {
+                    prevNextSmallestNode.left = null;
+                }
+
+                nextSmallestNode.left = curNode.left;
+                nextSmallestNode.right = curNode.right;
+                if (prevNode) {
+                    if (prevNode.value < curNode.value) {
+                        prevNode.right = nextSmallestNode;
+                    } else {
+                        prevNode.left = nextSmallestNode;
+                    }
+                } else {
+                    this.root = nextSmallestNode;
+                }
+            } else {
+                if (prevNode) {
+                    if (prevNode.value < curNode.value) {
+                        if (curNode.right) {
+                            prevNode.right = curNode.right;
+                        } else {
+                            prevNode.right = curNode.left;
+                        }
+                    } else {
+                        if (curNode.right) {
+                            prevNode.left = curNode.right;
+                        } else {
+                            prevNode.left = curNode.left;
+                        }
+                    }
+                } else {
+                    if (curNode.right) {
+                        this.root = curNode.right;
+                    } else {
+                        this.root = curNode.left;
+                    }
+                }
+            }
         }
     }
 }
@@ -185,7 +256,12 @@ tree.insert(20);
 tree.insert(170);
 tree.insert(15);
 tree.insert(1);
-// tree.remove(170);
+tree.remove(170);
+tree.remove(20);
+tree.remove(4);
+tree.remove(9);
+tree.remove(15);
+
 console.log(JSON.stringify(traverse(tree.root)));
 console.log(tree.lookup(20));
 //     9
