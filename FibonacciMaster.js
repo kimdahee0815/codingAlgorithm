@@ -6,14 +6,16 @@ function fibonacci(n) {
     }
     return fibonacci(n - 1) + fibonacci(n - 2);
 }
+calculations = 0;
 console.log(fibonacci(6));
 console.log("For Fbonacci func(6) We did " + calculations);
+calculations = 0;
 console.log(fibonacci(7));
 console.log("For Fbonacci func(7) We did " + calculations);
-console.log(fibonacci(8));
-console.log("For Fbonacci func(8) We did " + calculations);
-
 calculations = 0;
+console.log(fibonacci(10));
+console.log("For Fbonacci func(10) We did " + calculations);
+
 function finbonacciMaster() {
     let cache = {};
     return function fib(n) {
@@ -31,10 +33,15 @@ function finbonacciMaster() {
     };
 }
 
-const fibonacciM = finbonacciMaster();
-console.log(fibonacciM(6));
+const fibonacciM1 = finbonacciMaster();
+calculations = 0;
+console.log(fibonacciM1(6));
 console.log("For fibonacciM func(6) We did " + calculations);
-console.log(fibonacciM(7));
+const fibonacciM2 = finbonacciMaster();
+calculations = 0;
+console.log(fibonacciM2(7));
 console.log("For fibonacciM func(7) We did " + calculations);
-console.log(fibonacciM(8));
-console.log("For fibonacciM func(8) We did " + calculations);
+const fibonacciM3 = finbonacciMaster();
+calculations = 0;
+console.log(fibonacciM3(10));
+console.log("For fibonacciM func(10) We did " + calculations);
