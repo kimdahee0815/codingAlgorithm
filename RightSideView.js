@@ -50,3 +50,56 @@ function DFS(root, height, answer, tmp){
       return answer;
   }
 }
+
+//BFS
+/**
+ * @param {TreeNode} root
+ * @return {number[]}
+ */
+var rightSideView = function(node) {
+  let queue = [];
+  let nextLevel = [];
+  let answer = [];
+  if(node){
+      queue.push(node);
+      answer.push(node.val);
+  }
+  let level = 1;
+  while(queue.length !== 0){
+      if(queue.length !== 0){
+          node = queue.shift();
+      }
+      if(node.left){
+          nextLevel.push(node.left);
+          if(answer.length !== 0){
+              if(level < answer.length){
+                  answer.splice(level, 1);
+                  answer.push(node.left.val);
+              }else{
+                  answer.push(node.left.val);
+              } 
+          }else{
+              answer.push(node.left.val);
+          }
+      }
+      if(node.right){
+          nextLevel.push(node.right);
+          if(answer.length !== 0){
+               if(level < answer.length){
+                  answer.splice(level, 1);
+                  answer.push(node.right.val);
+              }else{
+                  answer.push(node.right.val);
+              } 
+          }else{
+              answer.push(node.right.val);
+          }
+      }
+      if(queue.length === 0){
+          level++;
+          queue = [...nextLevel];
+          nextLevel = [];
+      }
+  } 
+  return answer;
+};
