@@ -37,8 +37,83 @@ class TreeNode {
 
 const tree = new TreeNode(1);
 // console.log(tree.insert([2,3,4,5,6]))
-console.log(tree.insert([2,3]))
-console.log(countCompleteTreeNodes(tree.root));
+//console.log(tree.insert([2,3,4,5,6,7,8,9, 10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30]))
+console.log(tree.insert([2]))
+console.log(countCompleteTreeNodes2(tree.root));
+
+//O(log^2N)
+function countCompleteTreeNodes2(root){
+  if(!root){
+    return 0;
+  }
+  if(!root.left && !root.right){
+    return 1;
+  }
+  let height = DFSGetLevel(root, 1);
+  let remnantNodesNum = DFS(root, 1, height, 1);
+  console.log(remnantNodesNum);
+  return (Math.pow(2, height - 1) - 1) + remnantNodesNum
+}
+
+function DFSGetLevel(root, level){
+  if(!root.left && !root.right){
+    return level;
+  }
+  if(root.left){
+    return DFSGetLevel(root.left, level + 1);
+  }
+  if(root.right){
+    return DFSGetLevel(root.right, level + 1);
+  }
+}
+
+function DFS(root, level, height, rootLevel){
+  let left = root.left;
+  let right = root.right;
+  let lev = level + 1;
+  if(rootLevel === 1 && lev === height){
+    if(root.left && !root.right){
+      return 1;
+    }
+  }
+  if(lev === height){
+    return 2;
+  }
+  let res = 0;
+  while(left){
+    if(lev=== height - 1 && !left.right && !left.left){
+      return res + DFS(root.left, level +1, height, rootLevel + 1);
+    }
+    if(lev === height - 1 && !left.right && left.left){
+      res = Math.pow(2, lev) / Math.pow(2, rootLevel) - 1;
+      return res;
+    } 
+    if(lev === height - 1 && left.right && left.left){
+      break;
+    } 
+    left = left.right;
+    lev++;
+  }
+  if(res === 0){
+    res += Math.pow(2, lev) / Math.pow(2, rootLevel);
+  }
+  lev = level + 1;
+  while(right){
+    if(lev=== height - 1 && !right.right && !right.left){
+      return res;
+    }
+    if(lev === height - 1 && !right.right && right.left){
+      return res+1;
+    } 
+    if(lev === height - 1 && left.right && left.left){
+      return res + DFS(root.right, level + 1, height, rootLevel + 1);
+    } 
+    right = right.left;
+    lev++;
+  }
+}
+
+
 
 function countCompleteTreeNodes(root){
   if(!root){
