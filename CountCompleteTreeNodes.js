@@ -37,9 +37,52 @@ class TreeNode {
 
 const tree = new TreeNode(1);
 // console.log(tree.insert([2,3,4,5,6]))
-//console.log(tree.insert([2,3,4,5,6,7,8,9, 10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30]))
-console.log(tree.insert([2]))
-console.log(countCompleteTreeNodes2(tree.root));
+console.log(tree.insert([2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18]))
+//console.log(tree.insert([2]))
+console.log(countCompleteTreeNodes3(tree.root));
+
+function countCompleteTreeNodes3(root){
+  if(!root) return 0;
+  if(!root.left && !root.right) return 1;
+  let height = getHeight(root);
+  let left = 0;
+  let right = Math.pow(2, height-1) -1;
+  let lastN = getLastNodes(root, left, right, 1, height) + 1;
+  let result = right + lastN;
+  return result;
+}
+
+function getHeight(root){
+  let height = 0;
+  while(root){
+      root = root.left;
+      height++;
+  }
+  return height;
+}
+
+function getLastNodes(root, left, right, level, height){
+  let mid = Math.ceil((left + right) / 2);
+  let searchNode = root.right;
+  if(!searchNode){
+    return left;
+  }
+  if(searchNode && (level + 1 === height)){
+    return right;
+  }
+  let lev = level + 1;
+  while(searchNode.left){
+    if(searchNode.left){
+      searchNode = searchNode.left;
+      lev++;
+    }
+  }
+  if(lev === height){
+    return getLastNodes(root.right, mid, right, level+1, height);
+  }else{
+    return getLastNodes(root.left, left, mid-1, level+1, height)
+  }
+}
 
 //O(log^2N)
 function countCompleteTreeNodes2(root){
