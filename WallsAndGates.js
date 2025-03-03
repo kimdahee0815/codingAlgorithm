@@ -53,5 +53,33 @@ function DFS(grid,x,y,visited,lev,ans){
   }
 }
 
-console.log(wallsAndGates([[Infinity, -1, 0, Infinity], [Infinity, Infinity, Infinity, -1], [Infinity, -1, Infinity, -1], [0,-1,Infinity,Infinity]]));
-console.log(wallsAndGates([[Infinity, -1, 0, Infinity], [-1, Infinity, Infinity, -1], [Infinity, -1, Infinity, -1], [0,-1,Infinity,Infinity]]));
+
+function wallsAndGates2(grid){
+  if(grid.length === 0) return;
+  let visited = new Array(grid.length).fill(0).map(()=>new Array(grid[0].length).fill(false))
+  for(let x = 0; x< grid.length; x++){
+    for(let y = 0; y < grid[0].length; y++){
+      if(grid[x][y] === 0){
+        DFS2(grid,x,y,0,visited);
+        visited = visited.map(r => r.map(() => false));
+      }
+    }
+  }
+  return grid;
+}
+
+function DFS2(grid,x,y,steps,visited){
+  const directions = [[-1,0],[0,1],[1,0],[0,-1]];
+  for(let [moveX, moveY] of directions){
+    let newX = x + moveX;
+    let newY = y + moveY;
+    if(newX < 0 || newY < 0 || newX >= grid.length || newY >= grid[0].length || grid[newX][newY] === -1 || grid[newX][newY] === 0 || visited[newX][newY] === true) continue;
+    grid[newX][newY] = Math.min(grid[newX][newY], steps+1);
+    visited[newX][newY] = true;
+    DFS2(grid,newX, newY, steps+1,visited)
+  }
+  return;
+}
+
+console.log(wallsAndGates2([[Infinity, -1, 0, Infinity], [Infinity, Infinity, Infinity, -1], [Infinity, -1, Infinity, -1], [0,-1,Infinity,Infinity]]));
+console.log(wallsAndGates2([[Infinity, -1, 0, Infinity], [-1, Infinity, Infinity, -1], [Infinity, -1, Infinity, -1], [0,-1,Infinity,Infinity]]));
