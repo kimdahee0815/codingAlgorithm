@@ -28,3 +28,16 @@ function minCost2(cost, n, rememberCost){
 
 console.log(minCostClimbingStairs2([10, 15, 20])) // 15
 console.log(minCostClimbingStairs2([1, 100, 1, 1, 1, 100, 1, 1, 100, 1])) // 6
+
+function minCostClimbingStairs3(cost){
+  let minCost = {0: cost[0], 1: cost[1]};
+  let n = cost.length;
+  for(let i=2; i<n; i++){
+    minCost[i] = cost[i] + Math.min(minCost[i-1], minCost[i-2]);
+  }
+  return Math.min(minCost[n-1], minCost[n-2]);
+}
+
+console.log(minCostClimbingStairs3([10, 15, 20])) // 15
+console.log(minCostClimbingStairs3([1, 100, 1, 1, 1, 100, 1, 1, 100, 1])) // 6
+console.log(minCostClimbingStairs3([1, 100, 1])) // 2
