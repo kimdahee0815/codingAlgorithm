@@ -20,3 +20,38 @@ console.log(knightProbability(3,3,0,0)); // 0.015625
 console.log(knightProbability(3,4,0,0)); // 0.00390625
 console.log(knightProbability(3,5,0,0)); // 0.0009765625
 console.log(knightProbability(3,6,0,0)); // 0.000244140625
+
+function knightProbability2(n,k,row,column){
+  const dp = new Array(n).fill(0).map(()=>new Array(n).fill(0));
+  const previousDp = new Array(n).fill(0).map(()=>new Array(n).fill(0));
+  previousDp[row][column] = 1;
+  let result = 0;
+  if(k===0) return 1;
+  let step = 1;
+  while(step <= k){
+    for(let i=0;i<n;i++){
+      for(let j=0;j<n;j++){
+        for(let [moveX, moveY] of DIRECTIONS){
+          if(i+moveX <0 || i+moveX >= n || j+moveY < 0 || j+moveY >= n) continue;
+          dp[i][j] += previousDp[i+moveX][j+moveY] / 8;
+        }
+      }
+    }
+    for(let i = 0; i<n; i++){
+      for(let j = 0; j<n; j++){
+        previousDp[i][j] = dp[i][j];
+        if(step === k){
+          result += dp[i][j];
+        }
+        dp[i][j] = 0;
+      }
+    }
+    step++;
+  }
+  return result;
+}
+console.log(knightProbability2(3,2,0,0)); // 0.0625
+console.log(knightProbability2(3,3,0,0)); // 0.015625
+console.log(knightProbability2(3,4,0,0)); // 0.00390625
+console.log(knightProbability2(3,5,0,0)); // 0.0009765625
+console.log(knightProbability2(3,6,0,0)); // 0.000244140625
